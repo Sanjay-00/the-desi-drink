@@ -1,9 +1,9 @@
 /* ============================================================================
- *  THE DESI DRINK  —  SITE CONFIGURATION
+ *  THE DESI DRINK  SITE CONFIGURATION
  * ----------------------------------------------------------------------------
  *  This is the ONLY file you normally need to edit.
  *  Change menu items, prices, photos, address, hours, links etc. right here.
- *  No coding knowledge needed — just edit the text between the quotes.
+ *  No coding knowledge needed, just edit the text between the quotes.
  *
  *  IMPORTANT (WhatsApp number):
  *    The live phone number is NOT stored here. On the deployed site it is
@@ -35,8 +35,8 @@ window.CAFE_CONFIG = {
 
     // Opening hours (shown as plain text rows).
     hours: [
-      { day: "Mon – Fri", time: "8:00 AM – 10:00 PM" },
-      { day: "Sat – Sun", time: "9:00 AM – 11:00 PM" },
+      { day: "Mon to Fri", time: "8:00 AM to 10:00 PM" },
+      { day: "Sat to Sun", time: "9:00 AM to 11:00 PM" },
     ],
 
     // Social. Leave a value empty ("") to hide that link.
@@ -80,7 +80,7 @@ window.CAFE_CONFIG = {
       name: 'Masala Chai',
       category: 'Warm Brews',
       price: 20,
-      desc: 'Ek Chuski, BOLD SPICES, WARM HUGS! Brewed with authentic fresh spices and rich milk.',
+      desc: 'BOLD SPICES, WARM HUGS! Brewed with fresh spices and rich milk.',
       badge: 'Sukoon',
       image: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?q=80&w=300&auto=format&fit=crop', // REPLACE -> assets/menu/masala-chai.jpg
       customize: [
@@ -94,7 +94,7 @@ window.CAFE_CONFIG = {
       name: 'Hot Coffee',
       category: 'Warm Brews',
       price: 30,
-      desc: 'SIP. RELAX. RECHARGE. Smooth, creamy espresso combined with rich warm milk.',
+      desc: 'SIP. RELAX. RECHARGE. Smooth creamy espresso combined with rich warm milk.',
       badge: 'Creamy Froth',
       image: 'https://images.unsplash.com/photo-1541167760496-1628856ab772?q=80&w=300&auto=format&fit=crop', // REPLACE -> assets/menu/hot-coffee.jpg
       customize: [
@@ -107,7 +107,7 @@ window.CAFE_CONFIG = {
       name: 'Chhotu Chocolate Coffee',
       category: 'Warm Brews',
       price: 40,
-      desc: 'WARM HUG IN EVERY SIP! Creamy bubbly coffee loaded with rich cocoa sweetness.',
+      desc: 'WARM HUG IN EVERY SIP! Creamy coffee loaded with rich cocoa sweetness.',
       badge: 'Best-Seller',
       image: 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?q=80&w=300&auto=format&fit=crop', // REPLACE -> assets/menu/chocolate-coffee.jpg
       customize: [
@@ -120,7 +120,7 @@ window.CAFE_CONFIG = {
       name: 'Classic Bun Maska',
       category: 'Bites & Snacks',
       price: 40,
-      desc: 'SIMPLE JOY, PERFECTED! Soft oven toasted Bun loaded with deep creamy maska butter.',
+      desc: 'SIMPLE JOY, PERFECTED! Soft toasted bun loaded with creamy maska butter.',
       badge: 'Sweet Bliss',
       image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=300&auto=format&fit=crop', // REPLACE -> assets/menu/bun-maska.jpg
       customize: [
@@ -133,7 +133,7 @@ window.CAFE_CONFIG = {
       name: 'Chilli Garlic Maggi',
       category: 'Bites & Snacks',
       price: 60,
-      desc: 'BOLD FLAVORS, EVERY TWIST! Savory noodles cooked with spicy garlic and loaded cheese.',
+      desc: 'BOLD FLAVORS! Savory noodles cooked with spicy garlic and loaded cheese.',
       badge: 'Spicy Delight',
       image: 'https://images.unsplash.com/photo-1612966608997-30d411b49989?q=80&w=300&auto=format&fit=crop', // REPLACE -> assets/menu/garlic-maggi.jpg
       customize: [
@@ -146,7 +146,7 @@ window.CAFE_CONFIG = {
       name: 'Cheese Paneer Sandwich',
       category: 'Bites & Snacks',
       price: 80,
-      desc: 'CHEESY GOODNESS IN EVERY BITE. Crispy toasted bread packed with paneer and mozzarella.',
+      desc: 'CHEESY GOODNESS! Crispy toasted bread packed with paneer and mozzarella.',
       badge: 'Toasted Perfectly',
       image: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?q=80&w=300&auto=format&fit=crop', // REPLACE -> assets/menu/paneer-sandwich.jpg
       customize: [
@@ -158,7 +158,7 @@ window.CAFE_CONFIG = {
       name: 'Cheese Garlic Bread',
       category: 'Bites & Snacks',
       price: 40,
-      desc: 'BUTTERY, CHEESY, GARLICKY BLISS. Crispy baked slices topped with cheese and fresh garlic mix.',
+      desc: 'GARLICKY BLISS! Crispy baked slices topped with cheese and fresh garlic.',
       badge: 'Irresistible',
       image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=300&auto=format&fit=crop', // REPLACE -> assets/menu/garlic-bread.jpg
       customize: [
@@ -170,7 +170,7 @@ window.CAFE_CONFIG = {
       name: 'Black Currant Mocktail',
       category: 'Cool Refreshers',
       price: 60,
-      desc: 'A SIP OF BERRY BLISS. Chilled high-fizz refreshment loaded with sweet real black currant.',
+      desc: 'BERRY BLISS! Chilled fizzy refreshment loaded with sweet real black currant.',
       badge: 'Refreshing',
       image: 'https://images.unsplash.com/photo-1536935338788-846bb9981813?q=80&w=300&auto=format&fit=crop', // REPLACE -> assets/menu/black-currant.jpg
       customize: [

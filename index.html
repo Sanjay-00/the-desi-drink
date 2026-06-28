@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Desi Drink | Premium Menu & Ordering</title>
-    <meta name="description" content="The Desi Drink — aromatic, spiced, soulful chai, coffee & bites. Browse the menu and order in seconds.">
+    <meta name="description" content="The Desi Drink: aromatic, spiced, soulful chai, coffee & bites. Browse the menu and order in seconds.">
     <meta name="theme-color" content="#2C1A11">
 
     <!-- Open Graph (nice preview when the link is shared on WhatsApp/Instagram) -->
@@ -12,7 +12,7 @@
     <meta property="og:description" content="Aromatic • Spiced • Soulful. Tap to see our menu and order.">
     <meta property="og:type" content="website">
 
-    <!-- Tailwind CSS (CDN — fine for launch; see README to bundle later) -->
+    <!-- Tailwind CSS (CDN, fine for launch; see README to bundle later) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts for Premium Coffee Culture & Indian Soul -->
     <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -259,7 +259,15 @@
                     <span id="receipt-grand-total" class="font-serif text-2xl text-coffee-espresso">₹0</span>
                 </div>
             </div>
-            <div class="grid grid-cols-2 gap-3 pt-2">
+            <!-- Optional customer name field -->
+            <div class="relative">
+                <input type="text" id="customer-name" maxlength="40" placeholder="Your name (optional)" class="w-full pl-10 pr-4 py-3 bg-coffee-latte border border-coffee-caramel/20 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-coffee-honey placeholder:text-coffee-espresso/35 text-coffee-espresso font-medium">
+                <svg class="w-4 h-4 text-coffee-caramel/40 absolute left-3.5 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                </svg>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
                 <button onclick="clearFullCart()" class="py-4 bg-coffee-latte text-coffee-espresso hover:bg-coffee-honey/10 text-xs font-extrabold rounded-2xl btn-press border border-coffee-caramel/10 uppercase tracking-wider">Empty Cup</button>
                 <button onclick="placeWhatsAppOrder()" class="py-4 bg-coffee-espresso text-coffee-cream hover:bg-coffee-dark text-xs font-extrabold rounded-2xl shadow-md flex items-center justify-center gap-1.5 btn-press border border-coffee-honey/20 uppercase tracking-wider">
                     <span>Order via WhatsApp</span>
@@ -282,7 +290,7 @@
                 </div>
                 <button onclick="toggleStorePOS()" id="pos-toggle-btn" class="px-3.5 py-1 bg-coffee-espresso border border-coffee-honey/30 text-[9px] font-black tracking-wider text-coffee-honey rounded-xl uppercase btn-press">View POS Panel</button>
             </div>
-            <p class="text-[11px] text-coffee-caramel/60 leading-relaxed">Turn this display on to see how table orders and WhatsApp compilations show up in real-time. (Demo only — real-time sync needs a backend, see README.)</p>
+            <p class="text-[11px] text-coffee-caramel/60 leading-relaxed">Turn this display on to see how table orders and WhatsApp compilations show up in real-time. (Demo only, real-time sync needs a backend, see README.)</p>
             <div id="kitchen-display-system" class="space-y-3 pt-3 hidden border-t border-coffee-honey/20">
                 <div class="flex items-center justify-between">
                     <h5 class="text-xs font-bold text-coffee-caramel">Active Kitchen Line</h5>
@@ -298,7 +306,7 @@
     <!-- ===== Configuration (edit config.js for all content) ===== -->
     <script src="config.js"></script>
     <!-- Optional local override for the WhatsApp number (gitignored). 404 here is harmless. -->
-    <script src="config.local.js" onerror="/* no local override present — fine in production */"></script>
+    <script src="config.local.js" onerror="/* no local override present, fine in production */"></script>
 
     <script>
         // ---- Pull everything from the config file ----
@@ -756,19 +764,21 @@
                 return;
             }
 
+            const customerName = (document.getElementById('customer-name').value || '').trim();
             let deliveryFormat = appState.isTakeaway ? '🎒 Takeaway Bag' : `🪑 Dine In - Table ${appState.tableNo}`;
             let grandTotal = 0;
             let message = `*☕ NEW DESI DRINK CAFE ORDER* \n`;
-            message += `-----------------------------\n`;
+            message += `=============================\n`;
+            if (customerName) message += `*Name:* ${customerName}\n`;
             message += `*Service:* ${deliveryFormat}\n`;
-            message += `-----------------------------\n`;
+            message += `=============================\n`;
             appState.cart.forEach((item, idx) => {
                 const sub = item.finalPrice * item.quantity;
                 grandTotal += sub;
                 message += `${idx + 1}. *${item.name}* (x${item.quantity}) - ₹${sub}\n`;
                 item.customizations.forEach(c => { message += `  ↳ _${c.name}: ${c.value}_\n`; });
             });
-            message += `-----------------------------\n`;
+            message += `=============================\n`;
             message += `*Total Order Value:* ₹${grandTotal}\n`;
             message += `_Made with authentic Indian spices & warmth_ ❤`;
 
@@ -777,6 +787,7 @@
 
             const url = `https://api.whatsapp.com/send?phone=${number}&text=${encodeURIComponent(message)}`;
             appState.cart = [];
+            document.getElementById('customer-name').value = '';
             syncCart();
             toggleCartDrawer();
             window.open(url, '_blank');
@@ -900,7 +911,7 @@
         window.onload = () => {
             if (!window.CAFE_CONFIG) {
                 document.getElementById('menu-items-container').innerHTML =
-                    '<p class="text-center text-sm text-coffee-accent py-8">Could not load config.js — check the file is present.</p>';
+                    '<p class="text-center text-sm text-coffee-accent py-8">Could not load config.js, check the file is present.</p>';
                 return;
             }
 
