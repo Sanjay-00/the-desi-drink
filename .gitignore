@@ -1,0 +1,16 @@
+# Local-only WhatsApp number override (keeps the real number out of the repo)
+config.local.js
+
+# Python virtual environment
+venv/
+
+# Large source menu PDF (not needed for the website)
+*.pdf
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+*.log
+
+
+*.stackdump

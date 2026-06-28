@@ -1,0 +1,52 @@
+name: Deploy to GitHub Pages
+
+# Builds and publishes the site whenever you push to the main branch.
+# It also injects the real WhatsApp number from a repo secret named
+# WHATSAPP_NUMBER, so the number never lives in your committed code.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:        # lets you trigger a deploy manually from the Actions tab
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Only one deploy at a time
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Inject WhatsApp number from secret
+        env:
+          WHATSAPP_NUMBER: ${{ secrets.WHATSAPP_NUMBER }}
+        run: |
+          if [ -z "${WHATSAPP_NUMBER}" ]; then
+            echo "::warning::WHATSAPP_NUMBER secret is not set. Ordering will be disabled on the live site."
+          fi
+          # Replace the placeholder token in config.js with the secret value.
+          sed -i "s/__WHATSAPP_NUMBER__/${WHATSAPP_NUMBER}/g" config.js
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "."          # publish the whole repo (it's a static site)
+
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Desi Drink | Premium Menu & Ordering</title>
+    <meta name="description" content="The Desi Drink — aromatic, spiced, soulful chai, coffee & bites. Browse the menu and order in seconds.">
+    <meta name="theme-color" content="#2C1A11">
+
+    <!-- Open Graph (nice preview when the link is shared on WhatsApp/Instagram) -->
+    <meta property="og:title" content="The Desi Drink">
+    <meta property="og:description" content="Aromatic • Spiced • Soulful. Tap to see our menu and order.">
+    <meta property="og:type" content="website">
+
+    <!-- Tailwind CSS (CDN — fine for launch; see README to bundle later) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for Premium Coffee Culture & Indian Soul -->
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        coffee: {
+                            espresso: '#2C1A11',      // Deep roasted coffee beans
+                            caramel: '#7A431D',       // Silky sweet caramel
+                            honey: '#EAA937',         // Vibrant saffron honey gold
+                            latte: '#F3EDE2',         // Soft creamy froth background
+                            cream: '#FDFBF7',         // Warm white milk foam
+                            accent: '#C2462E',        // Deep terracotta red from original PDF
+                            dark: '#1C100A',          // Near black warm dark espresso
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['"Bricolage Grotesque"', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(122, 67, 29, 0.05); }
+        ::-webkit-scrollbar-thumb { background: rgba(122, 67, 29, 0.3); border-radius: 10px; }
+        .coffee-shadow { box-shadow: 0 10px 30px -10px rgba(44, 26, 17, 0.15); }
+        .golden-glow { box-shadow: 0 8px 25px -5px rgba(234, 169, 55, 0.4); }
+        .active-tab { background-color: #2C1A11; color: #FDFBF7; box-shadow: 0 4px 15px rgba(44, 26, 17, 0.2); }
+        @keyframes slideUp { 0% { transform: translateY(100%); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
+        @keyframes fadeIn { 0% { opacity: 0; } 100% { opacity: 1; } }
+        .animate-slideup { animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .animate-fade { animation: fadeIn 0.25s ease-out forwards; }
+        .btn-press { transition: transform 0.1s ease, filter 0.1s ease; }
+        .btn-press:active { transform: scale(0.95); filter: brightness(0.9); }
+    </style>
+</head>
+<body class="bg-coffee-latte text-coffee-espresso font-sans min-h-screen pb-28 selection:bg-coffee-honey selection:text-coffee-espresso">
+
+    <!-- Unified Sticky Header and Category Container for Perfect Blurring -->
+    <header class="sticky top-0 z-30 bg-coffee-cream/90 backdrop-blur-md border-b border-coffee-caramel/10 shadow-sm">
+        <div class="max-w-md mx-auto px-4 py-3.5 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <!-- Coffee Logo Emblem -->
+                <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-coffee-espresso to-coffee-dark flex items-center justify-center text-coffee-honey font-bold text-xl shadow-md border-2 border-coffee-honey">
+                    <svg class="w-6 h-6 fill-coffee-honey" viewBox="0 0 24 24">
+                        <path d="M2 21h18v-2H2v2M20 8h-2V5h2v3M4 19h12v-4H4v4m0-6h12v-4H4v4m0-6h12V3H4v4m16-1c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2h-4v6h4z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 id="cafe-name" class="font-serif font-extrabold text-2xl tracking-wide text-coffee-espresso leading-none">THE DESI DRINK</h1>
+                    <p id="cafe-tagline" class="text-[9px] tracking-widest uppercase font-extrabold text-coffee-caramel mt-1">Aromatic • Spiced • Soulful</p>
+                </div>
+            </div>
+
+            <!-- Dynamic Table Dine-in & Takeaway Selector -->
+            <button onclick="toggleTableSelectorModal()" class="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-coffee-espresso text-coffee-cream text-xs font-bold border border-coffee-honey/30 btn-press" id="table-display-pill">
+                <span class="w-2 h-2 rounded-full bg-coffee-honey animate-pulse"></span>
+                <span id="current-table-text" class="tracking-wide">Table 1</span>
+            </button>
+        </div>
+
+        <!-- Category Menu Navigation Tabs (generated from config) -->
+        <div id="category-tabs" class="max-w-md mx-auto px-4 pb-3 pt-1 flex items-center gap-2 overflow-x-auto"></div>
+    </header>
+
+    <main class="max-w-md mx-auto px-4 py-4 space-y-6">
+
+        <!-- Hero Feature Banner -->
+        <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-coffee-espresso to-coffee-dark text-coffee-cream p-6 shadow-2xl golden-glow border border-coffee-honey/20">
+            <div class="absolute inset-0 right-0 top-0 w-full h-full opacity-30 pointer-events-none z-0">
+                <img id="hero-image" src="" class="w-full h-full object-cover">
+            </div>
+            <div class="relative z-10 space-y-3">
+                <span id="hero-badge" class="inline-block px-3 py-1 bg-coffee-honey text-coffee-espresso text-[10px] uppercase font-extrabold rounded-lg tracking-wider">Soulful Combo</span>
+                <h2 id="hero-title" class="font-serif font-extrabold text-3xl leading-tight text-coffee-cream">Masala Chai & Bun Maska!</h2>
+                <p id="hero-desc" class="text-xs text-coffee-cream/80 font-medium leading-relaxed"></p>
+                <div class="pt-2">
+                    <button onclick="addComboToCart()" id="hero-cta" class="px-5 py-3 bg-coffee-honey text-coffee-espresso rounded-xl text-xs font-extrabold shadow-md hover:bg-white active:scale-95 transition-all duration-150 btn-press">
+                        Add Combo to Cup
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="relative">
+            <input type="text" id="menu-search" oninput="filterMenu()" placeholder="Search chai, bun maska, garlic bread..." class="w-full pl-11 pr-4 py-3.5 bg-coffee-cream border border-coffee-caramel/20 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-coffee-honey focus:border-transparent shadow-sm placeholder:text-coffee-espresso/40">
+            <svg class="w-5 h-5 text-coffee-caramel/50 absolute left-4 top-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+        </div>
+
+        <!-- Menu Container -->
+        <div id="menu-items-container" class="space-y-4"></div>
+
+        <!-- ===================== CAFE INFO SECTIONS ===================== -->
+
+        <!-- About / Our Story -->
+        <section class="bg-coffee-cream rounded-3xl p-6 shadow-sm border border-coffee-caramel/5 coffee-shadow space-y-2">
+            <h3 id="about-heading" class="font-serif font-extrabold text-xl text-coffee-espresso">Our Story</h3>
+            <p id="about-text" class="text-xs text-coffee-caramel/80 leading-relaxed"></p>
+        </section>
+
+        <!-- Hours -->
+        <section class="bg-coffee-cream rounded-3xl p-6 shadow-sm border border-coffee-caramel/5 coffee-shadow space-y-3">
+            <div class="flex items-center gap-2">
+                <span class="text-lg">🕒</span>
+                <h3 class="font-serif font-extrabold text-xl text-coffee-espresso">Opening Hours</h3>
+            </div>
+            <div id="hours-list" class="space-y-1.5"></div>
+        </section>
+
+        <!-- Find Us -->
+        <section class="bg-coffee-cream rounded-3xl p-6 shadow-sm border border-coffee-caramel/5 coffee-shadow space-y-3">
+            <div class="flex items-center gap-2">
+                <span class="text-lg">📍</span>
+                <h3 class="font-serif font-extrabold text-xl text-coffee-espresso">Find Us</h3>
+            </div>
+            <p id="cafe-address" class="text-xs text-coffee-caramel/80 leading-relaxed"></p>
+            <a id="maps-link" href="#" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-5 py-3 bg-coffee-espresso text-coffee-cream rounded-xl text-xs font-extrabold shadow-md btn-press border border-coffee-honey/20">
+                <span>Open in Google Maps</span>
+                <span class="text-coffee-honey">➔</span>
+            </a>
+        </section>
+
+        <!-- Contact / Social -->
+        <section class="grid grid-cols-2 gap-3">
+            <a id="call-link" href="#" class="flex flex-col items-center justify-center gap-1.5 py-5 bg-coffee-espresso text-coffee-cream rounded-3xl shadow-md btn-press border border-coffee-honey/20">
+                <span class="text-2xl">📞</span>
+                <span class="text-xs font-extrabold uppercase tracking-wider">Call Us</span>
+            </a>
+            <a id="instagram-link" href="#" target="_blank" rel="noopener" class="flex flex-col items-center justify-center gap-1.5 py-5 bg-gradient-to-br from-coffee-accent to-coffee-caramel text-coffee-cream rounded-3xl shadow-md btn-press border border-coffee-honey/20">
+                <span class="text-2xl">📸</span>
+                <span class="text-xs font-extrabold uppercase tracking-wider">Instagram</span>
+            </a>
+        </section>
+
+        <!-- Footer -->
+        <footer class="text-center py-6 space-y-1">
+            <p id="footer-name" class="font-serif font-extrabold text-lg text-coffee-espresso">THE DESI DRINK</p>
+            <p class="text-[10px] text-coffee-caramel/50 uppercase tracking-widest">Made with authentic Indian spices & warmth ❤</p>
+        </footer>
+
+    </main>
+
+    <!-- Customizable Product Drawer Modal -->
+    <div id="customizer-modal" class="fixed inset-0 bg-coffee-espresso/70 z-50 flex items-end justify-center opacity-0 pointer-events-none transition-all duration-300">
+        <div id="customizer-panel" class="bg-coffee-cream w-full max-w-md rounded-t-[32px] p-6 space-y-5 shadow-2xl transform translate-y-full transition-transform duration-300 max-h-[85vh] overflow-y-auto border-t border-coffee-honey/20">
+            <div class="flex items-start justify-between">
+                <div>
+                    <span id="modal-category" class="text-[10px] uppercase font-extrabold tracking-wider text-coffee-honey bg-coffee-espresso px-2.5 py-1 rounded-md">Warm Sip</span>
+                    <h3 id="modal-title" class="font-serif font-extrabold text-2xl text-coffee-espresso mt-2">Chai Cup</h3>
+                    <p id="modal-desc" class="text-xs text-coffee-caramel/70 mt-1 leading-relaxed"></p>
+                </div>
+                <button onclick="closeCustomizerModal()" class="w-9 h-9 rounded-full bg-coffee-latte flex items-center justify-center text-coffee-espresso hover:bg-coffee-honey/25 transition-colors btn-press">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <div id="modal-custom-options" class="space-y-4 pt-2"></div>
+            <div class="flex items-center justify-between pt-4 border-t border-coffee-caramel/10">
+                <div>
+                    <p class="text-[10px] uppercase font-extrabold tracking-wider text-coffee-caramel/50">Custom Total</p>
+                    <p id="modal-price" class="font-serif font-extrabold text-3xl text-coffee-espresso">₹20</p>
+                </div>
+                <button onclick="submitCustomizedItem()" class="px-6 py-4 bg-coffee-espresso text-coffee-cream rounded-2xl text-sm font-bold shadow-md hover:bg-coffee-dark btn-press flex items-center gap-2 border border-coffee-honey/20">
+                    <span>Add to Cup</span>
+                    <span class="text-sm">☕</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dine-In/Takeaway Table Selection Modal -->
+    <div id="table-selector-modal" class="fixed inset-0 bg-coffee-espresso/80 z-50 flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300 p-4">
+        <div id="table-selector-panel" class="bg-coffee-cream w-full max-w-sm rounded-3xl p-6 space-y-5 shadow-2xl transform scale-95 transition-all duration-300 border border-coffee-honey/20">
+            <div class="text-center space-y-1">
+                <h3 class="font-serif font-extrabold text-2xl text-coffee-espresso">Where are you sitting?</h3>
+                <p class="text-xs text-coffee-caramel/70">Select your dining setup for accurate kitchen delivery.</p>
+            </div>
+            <div class="grid grid-cols-2 gap-2 bg-coffee-latte p-1.5 rounded-2xl border border-coffee-caramel/10">
+                <button onclick="setServiceType('dine-in')" id="btn-dine-in" class="py-3 text-xs font-extrabold rounded-xl transition-all shadow-sm bg-coffee-espresso text-coffee-cream">Dine In (Table)</button>
+                <button onclick="setServiceType('takeaway')" id="btn-takeaway" class="py-3 text-xs font-extrabold rounded-xl transition-all text-coffee-caramel/60">Takeaway</button>
+            </div>
+            <div id="table-select-wrapper" class="space-y-2">
+                <label class="text-xs font-extrabold text-coffee-espresso/70 uppercase tracking-wider block">Choose Table Number</label>
+                <div id="table-number-grid" class="grid grid-cols-4 gap-2"></div>
+            </div>
+            <button onclick="saveTableConfig()" class="w-full py-3.5 bg-coffee-honey text-coffee-espresso font-extrabold text-sm rounded-xl shadow-md btn-press tracking-wider uppercase">Confirm Table Selection</button>
+        </div>
+    </div>
+
+    <!-- Sticky Shopping Cart Footer -->
+    <div id="sticky-cart-footer" class="fixed bottom-0 left-0 right-0 z-40 bg-coffee-cream border-t border-coffee-honey/30 px-4 py-3.5 transform translate-y-full transition-transform duration-300 shadow-2xl">
+        <div class="max-w-md mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <button onclick="toggleCartDrawer()" class="relative w-12 h-12 rounded-2xl bg-coffee-honey/10 border border-coffee-honey/40 flex items-center justify-center text-coffee-espresso shadow-inner hover:bg-coffee-honey/20 transition-all btn-press">
+                    ☕
+                    <span id="cart-item-badge" class="absolute -top-1.5 -right-1.5 bg-coffee-caramel text-coffee-cream text-[10px] font-extrabold w-5 h-5 rounded-full flex items-center justify-center border-2 border-coffee-cream animate-bounce">0</span>
+                </button>
+                <div>
+                    <p class="text-[10px] uppercase font-bold tracking-wider text-coffee-caramel/40">My Desi Cup</p>
+                    <p id="cart-grand-total" class="font-serif font-extrabold text-2xl text-coffee-espresso">₹0</p>
+                </div>
+            </div>
+            <button onclick="toggleCartDrawer()" class="px-6 py-4 bg-coffee-espresso text-coffee-cream rounded-2xl text-xs font-extrabold shadow-md hover:bg-coffee-dark active:scale-95 transition-all duration-150 flex items-center gap-2 btn-press border border-coffee-honey/30">
+                <span>View Order Details</span>
+                <span class="text-xs text-coffee-honey">➔</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Comprehensive Cart Summary Overlay Drawer -->
+    <div id="cart-drawer-modal" class="fixed inset-0 bg-coffee-espresso/80 z-50 flex items-end justify-center opacity-0 pointer-events-none transition-all duration-300">
+        <div id="cart-drawer-panel" class="bg-coffee-cream w-full max-w-md rounded-t-[32px] p-6 space-y-5 shadow-2xl transform translate-y-full transition-transform duration-300 max-h-[90vh] flex flex-col justify-between border-t border-coffee-honey/30">
+            <div class="flex items-center justify-between border-b border-coffee-caramel/10 pb-3">
+                <div class="flex items-center gap-2">
+                    <span class="text-xl">🧺</span>
+                    <h3 class="font-serif font-extrabold text-xl text-coffee-espresso">Your Desi Order Summary</h3>
+                </div>
+                <button onclick="toggleCartDrawer()" class="w-8 h-8 rounded-full bg-coffee-latte flex items-center justify-center text-coffee-espresso btn-press">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div id="cart-items-list" class="flex-grow overflow-y-auto space-y-4 py-2 pr-1"></div>
+            <div class="border-t border-coffee-caramel/10 pt-4 space-y-2.5">
+                <div class="flex justify-between text-xs text-coffee-caramel/80 font-semibold">
+                    <span>Dining Selection:</span>
+                    <span id="receipt-dining-type" class="font-extrabold text-coffee-caramel">Table 1</span>
+                </div>
+                <div class="flex justify-between text-xs text-coffee-caramel/60">
+                    <span>Convenience Surcharge:</span>
+                    <span>₹0.00 (Free)</span>
+                </div>
+                <div class="flex justify-between text-base font-extrabold text-coffee-espresso border-t border-dashed border-coffee-honey/20 pt-2.5">
+                    <span>Grand Total:</span>
+                    <span id="receipt-grand-total" class="font-serif text-2xl text-coffee-espresso">₹0</span>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3 pt-2">
+                <button onclick="clearFullCart()" class="py-4 bg-coffee-latte text-coffee-espresso hover:bg-coffee-honey/10 text-xs font-extrabold rounded-2xl btn-press border border-coffee-caramel/10 uppercase tracking-wider">Empty Cup</button>
+                <button onclick="placeWhatsAppOrder()" class="py-4 bg-coffee-espresso text-coffee-cream hover:bg-coffee-dark text-xs font-extrabold rounded-2xl shadow-md flex items-center justify-center gap-1.5 btn-press border border-coffee-honey/20 uppercase tracking-wider">
+                    <span>Order via WhatsApp</span>
+                    <span class="text-xs text-coffee-honey">➔</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Store POS Monitor display (admin only: add ?admin=true to the URL) -->
+    <div id="pos-monitor-card" class="max-w-md mx-auto px-4 mt-8 pb-12 hidden">
+        <div class="border border-coffee-honey/30 rounded-3xl bg-coffee-cream p-5 space-y-3.5 shadow-xl">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <span class="relative flex h-2.5 w-2.5">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-coffee-honey opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-coffee-honey"></span>
+                    </span>
+                    <h4 class="text-[10px] font-black uppercase tracking-widest text-coffee-espresso/80">KDS Monitor Display</h4>
+                </div>
+                <button onclick="toggleStorePOS()" id="pos-toggle-btn" class="px-3.5 py-1 bg-coffee-espresso border border-coffee-honey/30 text-[9px] font-black tracking-wider text-coffee-honey rounded-xl uppercase btn-press">View POS Panel</button>
+            </div>
+            <p class="text-[11px] text-coffee-caramel/60 leading-relaxed">Turn this display on to see how table orders and WhatsApp compilations show up in real-time. (Demo only — real-time sync needs a backend, see README.)</p>
+            <div id="kitchen-display-system" class="space-y-3 pt-3 hidden border-t border-coffee-honey/20">
+                <div class="flex items-center justify-between">
+                    <h5 class="text-xs font-bold text-coffee-caramel">Active Kitchen Line</h5>
+                    <span id="incoming-order-count" class="px-2.5 py-0.5 bg-coffee-espresso text-coffee-honey text-[9px] font-black rounded-lg">0 Orders</span>
+                </div>
+                <div id="kds-order-list" class="space-y-3 max-h-56 overflow-y-auto pr-1">
+                    <p class="text-xs text-coffee-espresso/40 italic text-center py-4">No active orders.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== Configuration (edit config.js for all content) ===== -->
+    <script src="config.js"></script>
+    <!-- Optional local override for the WhatsApp number (gitignored). 404 here is harmless. -->
+    <script src="config.local.js" onerror="/* no local override present — fine in production */"></script>
+
+    <script>
+        // ---- Pull everything from the config file ----
+        const CFG = window.CAFE_CONFIG || {};
+        const CAFEMENU = CFG.menu || [];
+        const CART_STORAGE_KEY = 'desi_drink_cart_v1';
+
+        const playSound = (type) => {
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (!AudioContext) return;
+                const ctx = new AudioContext();
+                if (type === 'add-to-cart') {
+                    const osc1 = ctx.createOscillator();
+                    const osc2 = ctx.createOscillator();
+                    const gainNode = ctx.createGain();
+                    osc1.type = 'sine'; osc1.frequency.setValueAtTime(987.77, ctx.currentTime);
+                    osc2.type = 'sine'; osc2.frequency.setValueAtTime(1318.51, ctx.currentTime);
+                    gainNode.gain.setValueAtTime(0.12, ctx.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
+                    osc1.connect(gainNode); osc2.connect(gainNode); gainNode.connect(ctx.destination);
+                    osc1.start(); osc2.start(); osc1.stop(ctx.currentTime + 0.4); osc2.stop(ctx.currentTime + 0.4);
+                } else if (type === 'order-place') {
+                    const notes = [523.25, 659.25, 783.99, 1046.50, 1318.51];
+                    notes.forEach((freq, index) => {
+                        const osc = ctx.createOscillator();
+                        const gainNode = ctx.createGain();
+                        osc.type = 'sine'; osc.frequency.setValueAtTime(freq, ctx.currentTime + (index * 0.08));
+                        gainNode.gain.setValueAtTime(0.08, ctx.currentTime + (index * 0.08));
+                        gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + (index * 0.08) + 0.5);
+                        osc.connect(gainNode); gainNode.connect(ctx.destination);
+                        osc.start(ctx.currentTime + (index * 0.08)); osc.stop(ctx.currentTime + (index * 0.08) + 0.6);
+                    });
+                }
+            } catch (e) {
+                console.warn('Browser policy temporarily muted synthesized audio feedback.');
+            }
+        };
+
+        // Core App state
+        let appState = {
+            activeCategory: 'all',
+            searchQuery: '',
+            tableNo: 1,
+            isTakeaway: false,
+            cart: [],
+            selectedConfigItem: null,
+            tempSelectedOptions: {},
+            simulatedKitchenOrders: []
+        };
+
+        // ---- localStorage cart persistence ----
+        const saveCart = () => {
+            try { localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(appState.cart)); } catch (e) {}
+        };
+        const loadCart = () => {
+            try {
+                const raw = localStorage.getItem(CART_STORAGE_KEY);
+                if (raw) appState.cart = JSON.parse(raw) || [];
+            } catch (e) { appState.cart = []; }
+        };
+
+        // ---- Build category tabs from config ----
+        const buildCategoryTabs = () => {
+            const wrap = document.getElementById('category-tabs');
+            wrap.innerHTML = '';
+            const cats = ['all', ...(CFG.categories || [])];
+            cats.forEach((cat, i) => {
+                const btn = document.createElement('button');
+                const isActive = i === 0;
+                btn.dataset.cat = cat;
+                btn.className = `px-4 py-2 rounded-xl text-xs font-extrabold uppercase tracking-wider text-coffee-espresso/60 transition-all whitespace-nowrap btn-press ${isActive ? 'active-tab' : ''}`;
+                btn.innerText = cat === 'all' ? 'All Sips' : cat;
+                btn.onclick = () => switchCategory(cat);
+                wrap.appendChild(btn);
+            });
+        };
+
+        const renderMenu = () => {
+            const container = document.getElementById('menu-items-container');
+            container.innerHTML = '';
+
+            const filtered = CAFEMENU.filter(item => {
+                const matchesCategory = appState.activeCategory === 'all' || item.category === appState.activeCategory;
+                const q = appState.searchQuery.toLowerCase();
+                const matchesSearch = item.name.toLowerCase().includes(q) || (item.desc || '').toLowerCase().includes(q);
+                return matchesCategory && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 space-y-3 animate-fade">
+                        <span class="text-4xl text-coffee-caramel/50">☕</span>
+                        <p class="text-sm font-semibold text-coffee-espresso/50">No drinks match your current search.</p>
+                    </div>`;
+                return;
+            }
+
+            filtered.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "bg-coffee-cream rounded-3xl p-4 flex gap-4 shadow-sm border border-coffee-caramel/5 hover:border-coffee-honey/45 transition-all duration-300 animate-slideup coffee-shadow items-center";
+
+                let badgeClass = "bg-coffee-honey/20 text-coffee-caramel";
+                if (item.category === 'Warm Brews') badgeClass = "bg-coffee-accent/15 text-coffee-accent border border-coffee-accent/20";
+                else if (item.category === 'Bites & Snacks') badgeClass = "bg-coffee-caramel/15 text-coffee-caramel border border-coffee-caramel/20";
+                else if (item.category === 'Cool Refreshers') badgeClass = "bg-teal-700/10 text-teal-800 border border-teal-500/20";
+
+                card.innerHTML = `
+                    <div class="flex-grow space-y-2 max-w-[65%]">
+                        <div class="flex flex-wrap items-center gap-1.5">
+                            <span class="text-[9px] uppercase font-black tracking-wider px-2 py-0.5 rounded-lg ${badgeClass}">${item.badge || ''}</span>
+                            <span class="text-[9px] uppercase font-bold tracking-wider text-coffee-espresso/45">${item.category}</span>
+                        </div>
+                        <h3 class="font-serif font-extrabold text-lg text-coffee-espresso leading-snug">${item.name}</h3>
+                        <p class="text-[11px] text-coffee-caramel/75 leading-relaxed line-clamp-2">${item.desc || ''}</p>
+                        <div class="flex items-center justify-between pt-1">
+                            <span class="font-serif font-black text-coffee-caramel text-lg">₹${item.price}</span>
+                            <button onclick="handleItemAddition('${item.id}')" class="px-4 py-1.5 bg-coffee-espresso text-coffee-cream text-[11px] font-extrabold rounded-xl shadow-md border border-coffee-honey/20 hover:bg-coffee-dark transition-all flex items-center gap-1 btn-press">
+                                <span>ADD</span><span class="text-[9px] text-coffee-honey">➕</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="w-24 h-24 sm:w-28 sm:h-28 flex-shrink-0 relative rounded-2xl overflow-hidden border border-coffee-caramel/10 bg-coffee-latte shadow-inner">
+                        <img src="${item.image}" alt="${item.name}" loading="lazy" width="112" height="112"
+                             class="w-full h-full object-cover transition-all duration-500 opacity-0 scale-100"
+                             onload="this.classList.remove('opacity-0')"
+                             onerror="this.src='https://placehold.co/150x150/F3EDE2/2C1A11?text=${encodeURIComponent(item.name)}'">
+                    </div>`;
+                container.appendChild(card);
+            });
+        };
+
+        const switchCategory = (category) => {
+            appState.activeCategory = category;
+            document.querySelectorAll('#category-tabs button').forEach(btn => {
+                btn.classList.toggle('active-tab', btn.dataset.cat === category);
+            });
+            renderMenu();
+        };
+
+        const filterMenu = () => {
+            appState.searchQuery = document.getElementById('menu-search').value;
+            renderMenu();
+        };
+
+        const handleItemAddition = (id) => {
+            const item = CAFEMENU.find(x => x.id === id);
+            if (!item) return;
+
+            if (!item.customize || item.customize.length === 0) {
+                appState.cart.push({
+                    uniqueId: Date.now() + Math.random().toString(36).substring(2,5),
+                    productId: item.id, name: item.name, basePrice: item.price,
+                    customizations: [], quantity: 1, finalPrice: item.price
+                });
+                playSound('add-to-cart');
+                syncCart();
+                return;
+            }
+
+            appState.selectedConfigItem = item;
+            appState.tempSelectedOptions = {};
+            item.customize.forEach(opt => {
+                if (opt.type === 'radio') appState.tempSelectedOptions[opt.name] = opt.options[0];
+                else if (opt.type === 'checkbox') appState.tempSelectedOptions[opt.name] = [];
+            });
+
+            document.getElementById('modal-category').innerText = item.category;
+            document.getElementById('modal-title').innerText = item.name;
+            document.getElementById('modal-desc').innerText = item.desc || '';
+
+            const optionsContainer = document.getElementById('modal-custom-options');
+            optionsContainer.innerHTML = '';
+
+            item.customize.forEach(cust => {
+                const fieldset = document.createElement('div');
+                fieldset.className = "space-y-2";
+                fieldset.innerHTML = `<label class="text-[10px] font-black uppercase tracking-wider text-coffee-caramel/70 block">${cust.name}</label>`;
+                const optionWrapper = document.createElement('div');
+                optionWrapper.className = "grid grid-cols-2 gap-2";
+
+                if (cust.type === 'radio') {
+                    cust.options.forEach((opt, idx) => {
+                        const isSelected = idx === 0;
+                        const btn = document.createElement('button');
+                        btn.className = `py-3 px-3 text-xs font-bold rounded-xl border text-left transition-all flex justify-between items-center btn-press ${isSelected ? 'bg-coffee-honey/15 border-coffee-honey text-coffee-espresso' : 'bg-coffee-latte/50 border-coffee-caramel/5 text-coffee-espresso/80'}`;
+                        btn.id = `modal-radio-${cust.name.replace(/\s+/g, '')}-${idx}`;
+                        btn.onclick = () => selectRadioCustomization(cust.name, opt, idx, cust.options.length);
+                        btn.innerHTML = `<span>${opt}</span>${isSelected ? '<span class="text-coffee-honey">✔</span>' : ''}`;
+                        optionWrapper.appendChild(btn);
+                    });
+                } else if (cust.type === 'checkbox') {
+                    cust.options.forEach((opt, idx) => {
+                        const btn = document.createElement('button');
+                        btn.className = `py-3 px-3 text-xs font-bold rounded-xl border text-left transition-all flex justify-between items-center bg-coffee-latte/50 border-coffee-caramel/5 text-coffee-espresso/80 btn-press`;
+                        btn.id = `modal-check-${cust.name.replace(/\s+/g, '')}-${idx}`;
+                        btn.onclick = () => selectCheckboxCustomization(cust.name, opt, idx);
+                        btn.innerHTML = `<span>${opt.name}</span><span class="text-coffee-caramel font-serif font-black">+₹${opt.price}</span>`;
+                        optionWrapper.appendChild(btn);
+                    });
+                }
+                fieldset.appendChild(optionWrapper);
+                optionsContainer.appendChild(fieldset);
+            });
+
+            calculateModalPrice();
+
+            const modal = document.getElementById('customizer-modal');
+            const panel = document.getElementById('customizer-panel');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.classList.add('opacity-100', 'pointer-events-auto');
+            panel.classList.remove('translate-y-full');
+            panel.classList.add('translate-y-0');
+        };
+
+        const selectRadioCustomization = (groupName, value, index, totalOptions) => {
+            appState.tempSelectedOptions[groupName] = value;
+            for (let i = 0; i < totalOptions; i++) {
+                const el = document.getElementById(`modal-radio-${groupName.replace(/\s+/g, '')}-${i}`);
+                if (i === index) {
+                    el.className = "py-3 px-3 text-xs font-bold rounded-xl border text-left transition-all flex justify-between items-center bg-coffee-honey/15 border-coffee-honey text-coffee-espresso";
+                    el.innerHTML = `<span>${value}</span><span class="text-coffee-honey">✔</span>`;
+                } else {
+                    const optVal = CAFEMENU.find(x => x.id === appState.selectedConfigItem.id).customize.find(c => c.name === groupName).options[i];
+                    el.className = "py-3 px-3 text-xs font-bold rounded-xl border text-left transition-all flex justify-between items-center bg-coffee-latte/50 border-coffee-caramel/5 text-coffee-espresso/80";
+                    el.innerHTML = `<span>${optVal}</span>`;
+                }
+            }
+            calculateModalPrice();
+        };
+
+        const selectCheckboxCustomization = (groupName, optionObj, index) => {
+            let activeList = appState.tempSelectedOptions[groupName] || [];
+            const existsIdx = activeList.findIndex(x => x.name === optionObj.name);
+            const el = document.getElementById(`modal-check-${groupName.replace(/\s+/g, '')}-${index}`);
+            if (existsIdx > -1) {
+                activeList.splice(existsIdx, 1);
+                el.className = "py-3 px-3 text-xs font-bold rounded-xl border text-left transition-all flex justify-between items-center bg-coffee-latte/50 border-coffee-caramel/5 text-coffee-espresso/80";
+            } else {
+                activeList.push(optionObj);
+                el.className = "py-3 px-3 text-xs font-bold rounded-xl border text-left transition-all flex justify-between items-center bg-coffee-honey/15 border-coffee-honey text-coffee-espresso";
+            }
+            appState.tempSelectedOptions[groupName] = activeList;
+            calculateModalPrice();
+        };
+
+        const calculateModalPrice = () => {
+            if (!appState.selectedConfigItem) return;
+            let finalCost = appState.selectedConfigItem.price;
+            Object.keys(appState.tempSelectedOptions).forEach(key => {
+                const selection = appState.tempSelectedOptions[key];
+                if (typeof selection === 'string') {
+                    if (selection.includes('+₹')) {
+                        const amt = parseInt(selection.split('+₹')[1]);
+                        if (!isNaN(amt)) finalCost += amt;
+                    }
+                } else if (Array.isArray(selection)) {
+                    selection.forEach(chk => { finalCost += chk.price; });
+                }
+            });
+            document.getElementById('modal-price').innerText = `₹${finalCost}`;
+            return finalCost;
+        };
+
+        const closeCustomizerModal = () => {
+            const modal = document.getElementById('customizer-modal');
+            const panel = document.getElementById('customizer-panel');
+            panel.classList.remove('translate-y-0');
+            panel.classList.add('translate-y-full');
+            modal.classList.remove('opacity-100', 'pointer-events-auto');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+        };
+
+        const submitCustomizedItem = () => {
+            const finalPrice = calculateModalPrice();
+            const customizationsList = [];
+            Object.keys(appState.tempSelectedOptions).forEach(key => {
+                const option = appState.tempSelectedOptions[key];
+                if (typeof option === 'string') {
+                    customizationsList.push({ name: key, value: option });
+                } else if (Array.isArray(option)) {
+                    option.forEach(o => customizationsList.push({ name: `${key}: ${o.name}`, value: `+₹${o.price}` }));
+                }
+            });
+            appState.cart.push({
+                uniqueId: Date.now() + Math.random().toString(36).substring(2,5),
+                productId: appState.selectedConfigItem.id,
+                name: appState.selectedConfigItem.name,
+                basePrice: appState.selectedConfigItem.price,
+                customizations: customizationsList,
+                quantity: 1, finalPrice: finalPrice
+            });
+            playSound('add-to-cart');
+            closeCustomizerModal();
+            syncCart();
+        };
+
+        const addComboToCart = () => {
+            const ids = (CFG.hero && CFG.hero.comboItemIds) || [];
+            ids.forEach(id => {
+                const item = CAFEMENU.find(x => x.id === id);
+                if (!item) return;
+                appState.cart.push({
+                    uniqueId: `combo-${Math.random().toString(36).substring(2,7)}`,
+                    productId: item.id, name: item.name, basePrice: item.price,
+                    customizations: [{ name: 'Promo Deal', value: 'Featured Combo' }],
+                    quantity: 1, finalPrice: item.price
+                });
+            });
+            playSound('add-to-cart');
+            syncCart();
+        };
+
+        const toggleTableSelectorModal = () => {
+            const modal = document.getElementById('table-selector-modal');
+            const panel = document.getElementById('table-selector-panel');
+            if (modal.classList.contains('pointer-events-none')) {
+                modal.classList.remove('opacity-0', 'pointer-events-none');
+                modal.classList.add('opacity-100', 'pointer-events-auto');
+                panel.classList.remove('scale-95'); panel.classList.add('scale-100');
+            } else {
+                panel.classList.remove('scale-100'); panel.classList.add('scale-95');
+                modal.classList.remove('opacity-100', 'pointer-events-auto');
+                modal.classList.add('opacity-0', 'pointer-events-none');
+            }
+        };
+
+        const setServiceType = (type) => {
+            const dineInBtn = document.getElementById('btn-dine-in');
+            const takeawayBtn = document.getElementById('btn-takeaway');
+            const tableSelector = document.getElementById('table-select-wrapper');
+            if (type === 'dine-in') {
+                appState.isTakeaway = false;
+                dineInBtn.className = "py-3 text-xs font-extrabold rounded-xl transition-all shadow-sm bg-coffee-espresso text-coffee-cream";
+                takeawayBtn.className = "py-3 text-xs font-extrabold rounded-xl transition-all text-coffee-caramel/60";
+                tableSelector.classList.remove('hidden');
+            } else {
+                appState.isTakeaway = true;
+                takeawayBtn.className = "py-3 text-xs font-extrabold rounded-xl transition-all shadow-sm bg-coffee-espresso text-coffee-cream";
+                dineInBtn.className = "py-3 text-xs font-extrabold rounded-xl transition-all text-coffee-caramel/60";
+                tableSelector.classList.add('hidden');
+            }
+        };
+
+        const buildTableButtons = () => {
+            const grid = document.getElementById('table-number-grid');
+            grid.innerHTML = '';
+            const count = CFG.tableCount || 4;
+            for (let n = 1; n <= count; n++) {
+                const btn = document.createElement('button');
+                btn.className = `table-btn py-2.5 text-sm font-black rounded-xl border ${n === 1 ? 'border-coffee-honey bg-coffee-honey/10 text-coffee-espresso' : 'border-coffee-caramel/20 text-coffee-caramel'} btn-press`;
+                btn.innerText = `T${n}`;
+                btn.onclick = () => selectTableNumber(n);
+                grid.appendChild(btn);
+            }
+        };
+
+        const selectTableNumber = (num) => {
+            appState.tableNo = num;
+            document.querySelectorAll('.table-btn').forEach((btn, idx) => {
+                if (idx === (num - 1)) btn.className = "table-btn py-2.5 text-sm font-black rounded-xl border border-coffee-honey bg-coffee-honey/10 text-coffee-espresso btn-press";
+                else btn.className = "table-btn py-2.5 text-sm font-black rounded-xl border border-coffee-caramel/20 text-coffee-caramel btn-press";
+            });
+        };
+
+        const saveTableConfig = () => {
+            const label = appState.isTakeaway ? 'Takeaway' : `Table ${appState.tableNo}`;
+            document.getElementById('current-table-text').innerText = label;
+            document.getElementById('receipt-dining-type').innerText = label;
+            toggleTableSelectorModal();
+        };
+
+        const syncCart = () => {
+            const badge = document.getElementById('cart-item-badge');
+            const grandTotalDisplay = document.getElementById('cart-grand-total');
+            const receiptGrandTotalDisplay = document.getElementById('receipt-grand-total');
+            const footer = document.getElementById('sticky-cart-footer');
+            let count = 0, grandTotal = 0;
+            appState.cart.forEach(item => { count += item.quantity; grandTotal += (item.finalPrice * item.quantity); });
+            badge.innerText = count;
+            grandTotalDisplay.innerText = `₹${grandTotal}`;
+            receiptGrandTotalDisplay.innerText = `₹${grandTotal}`;
+            if (count > 0) footer.classList.remove('translate-y-full');
+            else footer.classList.add('translate-y-full');
+            saveCart();
+            renderCartDrawerItems();
+        };
+
+        const toggleCartDrawer = () => {
+            const modal = document.getElementById('cart-drawer-modal');
+            const panel = document.getElementById('cart-drawer-panel');
+            if (modal.classList.contains('pointer-events-none')) {
+                modal.classList.remove('opacity-0', 'pointer-events-none');
+                modal.classList.add('opacity-100', 'pointer-events-auto');
+                panel.classList.remove('translate-y-full'); panel.classList.add('translate-y-0');
+            } else {
+                panel.classList.remove('translate-y-0'); panel.classList.add('translate-y-full');
+                modal.classList.remove('opacity-100', 'pointer-events-auto');
+                modal.classList.add('opacity-0', 'pointer-events-none');
+            }
+        };
+
+        const renderCartDrawerItems = () => {
+            const list = document.getElementById('cart-items-list');
+            list.innerHTML = '';
+            if (appState.cart.length === 0) {
+                list.innerHTML = `
+                    <div class="text-center py-12 space-y-2">
+                        <span class="text-4xl text-coffee-caramel/40">🧺</span>
+                        <p class="text-sm font-semibold text-coffee-caramel/50">Your cup is empty. Pour a warm blend!</p>
+                    </div>`;
+                return;
+            }
+            appState.cart.forEach(item => {
+                const row = document.createElement('div');
+                row.className = "bg-coffee-latte/60 rounded-2xl p-4 border border-coffee-caramel/10 space-y-2 relative shadow-inner";
+                let optionsStr = item.customizations.map(c => `<span class="bg-coffee-cream px-2.5 py-1 rounded text-[9px] border border-coffee-caramel/10 font-bold text-coffee-caramel">${c.name}: ${c.value}</span>`).join(' ');
+                row.innerHTML = `
+                    <div class="flex items-start justify-between gap-4">
+                        <div>
+                            <h4 class="font-extrabold text-sm text-coffee-espresso">${item.name}</h4>
+                            <p class="font-serif font-black text-xs text-coffee-caramel mt-0.5">₹${item.finalPrice}</p>
+                        </div>
+                        <div class="flex items-center gap-2 bg-coffee-cream border border-coffee-caramel/10 rounded-xl p-1.5 shadow-sm">
+                            <button onclick="updateQty('${item.uniqueId}', -1)" class="w-6 h-6 flex items-center justify-center text-xs font-black text-coffee-caramel hover:bg-coffee-latte rounded-md btn-press">-</button>
+                            <span class="text-xs font-extrabold text-coffee-espresso px-1">${item.quantity}</span>
+                            <button onclick="updateQty('${item.uniqueId}', 1)" class="w-6 h-6 flex items-center justify-center text-xs font-black text-coffee-caramel hover:bg-coffee-latte rounded-md btn-press">+</button>
+                        </div>
+                    </div>
+                    ${optionsStr ? `<div class="flex flex-wrap gap-1.5 pt-1.5 border-t border-coffee-caramel/5">${optionsStr}</div>` : ''}`;
+                list.appendChild(row);
+            });
+        };
+
+        const updateQty = (uniqueId, direction) => {
+            const idx = appState.cart.findIndex(x => x.uniqueId === uniqueId);
+            if (idx === -1) return;
+            appState.cart[idx].quantity += direction;
+            if (appState.cart[idx].quantity <= 0) appState.cart.splice(idx, 1);
+            syncCart();
+        };
+
+        const clearFullCart = () => {
+            appState.cart = [];
+            syncCart();
+            toggleCartDrawer();
+        };
+
+        const placeWhatsAppOrder = () => {
+            if (appState.cart.length === 0) return;
+
+            const number = CFG.whatsappNumber || '';
+            if (!number || number.indexOf('_') !== -1) {
+                alert("Ordering is not set up yet: the cafe's WhatsApp number is missing.\n\nAdd it in config.local.js (for local testing) or the WHATSAPP_NUMBER GitHub secret (for the live site). See README.");
+                return;
+            }
+
+            let deliveryFormat = appState.isTakeaway ? '🎒 Takeaway Bag' : `🪑 Dine In - Table ${appState.tableNo}`;
+            let grandTotal = 0;
+            let message = `*☕ NEW DESI DRINK CAFE ORDER* \n`;
+            message += `-----------------------------\n`;
+            message += `*Service:* ${deliveryFormat}\n`;
+            message += `-----------------------------\n`;
+            appState.cart.forEach((item, idx) => {
+                const sub = item.finalPrice * item.quantity;
+                grandTotal += sub;
+                message += `${idx + 1}. *${item.name}* (x${item.quantity}) - ₹${sub}\n`;
+                item.customizations.forEach(c => { message += `  ↳ _${c.name}: ${c.value}_\n`; });
+            });
+            message += `-----------------------------\n`;
+            message += `*Total Order Value:* ₹${grandTotal}\n`;
+            message += `_Made with authentic Indian spices & warmth_ ❤`;
+
+            playSound('order-place');
+            registerOrderInKDS(message, grandTotal);
+
+            const url = `https://api.whatsapp.com/send?phone=${number}&text=${encodeURIComponent(message)}`;
+            appState.cart = [];
+            syncCart();
+            toggleCartDrawer();
+            window.open(url, '_blank');
+        };
+
+        const toggleStorePOS = () => {
+            const kds = document.getElementById('kitchen-display-system');
+            const btn = document.getElementById('pos-toggle-btn');
+            if (kds.classList.contains('hidden')) {
+                kds.classList.remove('hidden');
+                btn.innerText = "Hide POS Panel";
+                btn.className = "px-3.5 py-1 bg-coffee-caramel text-[9px] font-black tracking-wider text-coffee-cream rounded-xl uppercase btn-press";
+            } else {
+                kds.classList.add('hidden');
+                btn.innerText = "View POS Panel";
+                btn.className = "px-3.5 py-1 bg-coffee-espresso border border-coffee-honey/30 text-[9px] font-black tracking-wider text-coffee-honey rounded-xl uppercase btn-press";
+            }
+        };
+
+        const registerOrderInKDS = (rawMessage, total) => {
+            appState.simulatedKitchenOrders.unshift({
+                id: Math.floor(1000 + Math.random() * 9000),
+                table: appState.isTakeaway ? 'Takeaway' : `Table ${appState.tableNo}`,
+                timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                text: rawMessage.replace(/\*/g, '').replace(/_/g, ''),
+                total: total
+            });
+            updateKDSUI();
+        };
+
+        const updateKDSUI = () => {
+            const list = document.getElementById('kds-order-list');
+            const countBadge = document.getElementById('incoming-order-count');
+            list.innerHTML = '';
+            const len = appState.simulatedKitchenOrders.length;
+            countBadge.innerText = `${len} Active Order${len !== 1 ? 's' : ''}`;
+            if (len === 0) {
+                list.innerHTML = `<p class="text-xs text-coffee-espresso/40 italic text-center py-4">No active orders.</p>`;
+                return;
+            }
+            appState.simulatedKitchenOrders.forEach((ord, index) => {
+                const card = document.createElement('div');
+                card.className = "p-3 bg-coffee-cream border border-coffee-honey/20 rounded-2xl space-y-2 relative shadow-sm animate-slideup";
+                card.innerHTML = `
+                    <div class="flex items-center justify-between border-b border-coffee-caramel/10 pb-1.5">
+                        <div>
+                            <span class="text-[9px] font-black bg-coffee-espresso text-coffee-honey px-2 py-0.5 rounded-lg">#${ord.id}</span>
+                            <span class="text-xs font-extrabold text-coffee-espresso ml-1.5">${ord.table}</span>
+                        </div>
+                        <span class="text-[9px] font-medium text-coffee-caramel/50">${ord.timestamp}</span>
+                    </div>
+                    <pre class="text-[10px] leading-relaxed whitespace-pre-wrap font-sans text-coffee-espresso/80 bg-coffee-latte p-2 rounded-xl max-h-32 overflow-y-auto">${ord.text}</pre>
+                    <div class="flex items-center justify-between pt-1.5">
+                        <span class="text-xs font-black text-coffee-caramel">Total: ₹${ord.total}</span>
+                        <div class="flex gap-2">
+                            <button onclick="actionKDS(${index}, 'done')" class="px-3 py-1 bg-coffee-caramel text-coffee-cream text-[9px] font-black rounded-lg shadow-sm btn-press">Serve</button>
+                            <button onclick="actionKDS(${index}, 'cancel')" class="px-3 py-1 bg-coffee-latte text-coffee-caramel text-[9px] font-black rounded-lg border border-coffee-caramel/10 btn-press">Cancel</button>
+                        </div>
+                    </div>`;
+                list.appendChild(card);
+            });
+        };
+
+        const actionKDS = (index) => {
+            appState.simulatedKitchenOrders.splice(index, 1);
+            updateKDSUI();
+        };
+
+        // ---- Fill all the static cafe content from config ----
+        const applyCafeContent = () => {
+            const c = CFG.cafe || {};
+            const setText = (id, val) => { const el = document.getElementById(id); if (el && val != null) el.innerText = val; };
+
+            setText('cafe-name', c.name);
+            setText('footer-name', c.name);
+            setText('cafe-tagline', c.tagline);
+            document.title = `${c.name || 'The Desi Drink'} | Menu & Ordering`;
+
+            // Hero
+            const h = CFG.hero || {};
+            setText('hero-badge', h.badge);
+            setText('hero-title', h.title);
+            setText('hero-desc', h.desc);
+            if (h.image) document.getElementById('hero-image').src = h.image;
+            const cta = document.getElementById('hero-cta');
+            if (cta && h.price != null) cta.innerText = `Add Combo to Cup • ₹${h.price}`;
+
+            // About
+            const a = CFG.about || {};
+            setText('about-heading', a.heading);
+            setText('about-text', a.text);
+
+            // Hours
+            const hoursList = document.getElementById('hours-list');
+            hoursList.innerHTML = '';
+            (c.hours || []).forEach(row => {
+                const div = document.createElement('div');
+                div.className = "flex justify-between text-xs";
+                div.innerHTML = `<span class="font-bold text-coffee-espresso">${row.day}</span><span class="text-coffee-caramel/80 font-semibold">${row.time}</span>`;
+                hoursList.appendChild(div);
+            });
+
+            // Find us
+            setText('cafe-address', c.address);
+            const maps = document.getElementById('maps-link');
+            if (maps && c.mapsLink) maps.href = c.mapsLink;
+
+            // Call
+            const call = document.getElementById('call-link');
+            if (call && c.phone) call.href = `tel:${c.phone}`;
+
+            // Instagram (hide if empty)
+            const ig = document.getElementById('instagram-link');
+            if (ig) {
+                if (c.instagram) ig.href = c.instagram;
+                else ig.style.display = 'none';
+            }
+        };
+
+        // ---- Init ----
+        window.onload = () => {
+            if (!window.CAFE_CONFIG) {
+                document.getElementById('menu-items-container').innerHTML =
+                    '<p class="text-center text-sm text-coffee-accent py-8">Could not load config.js — check the file is present.</p>';
+                return;
+            }
+
+            applyCafeContent();
+            buildCategoryTabs();
+            buildTableButtons();
+            loadCart();
+            renderMenu();
+            syncCart();
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const urlTable = urlParams.get('table');
+            const urlType = urlParams.get('type');
+            const isAdmin = urlParams.get('admin');
+
+            const posCard = document.getElementById('pos-monitor-card');
+            if (posCard) posCard.classList.toggle('hidden', isAdmin !== 'true');
+
+            const tablePill = document.getElementById('table-display-pill');
+            const lockPill = () => {
+                tablePill.removeAttribute('onclick');
+                tablePill.style.cursor = 'default';
+                tablePill.classList.remove('btn-press');
+                const pulseDot = tablePill.querySelector('.rounded-full');
+                if (pulseDot) {
+                    pulseDot.classList.remove('animate-pulse', 'bg-coffee-honey');
+                    pulseDot.classList.add('bg-coffee-caramel');
+                }
+            };
+
+            const maxTable = CFG.tableCount || 4;
+            const validTables = Array.from({ length: maxTable }, (_, i) => String(i + 1));
+
+            if (urlType === 'takeaway') {
+                setServiceType('takeaway');
+                saveTableConfig();
+                lockPill();
+            } else if (urlTable && validTables.includes(urlTable)) {
+                setServiceType('dine-in');
+                selectTableNumber(parseInt(urlTable));
+                saveTableConfig();
+                lockPill();
+            } else {
+                selectTableNumber(1);
+                saveTableConfig();
+            }
+        };
+    </script>
+</body>
+</html>
