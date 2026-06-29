@@ -73,11 +73,6 @@
                 </div>
             </div>
 
-            <!-- Dynamic Table Dine-in & Takeaway Selector -->
-            <button onclick="toggleTableSelectorModal()" class="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-coffee-espresso text-coffee-cream text-xs font-bold border border-coffee-honey/30 btn-press" id="table-display-pill">
-                <span class="w-2 h-2 rounded-full bg-coffee-honey animate-pulse"></span>
-                <span id="current-table-text" class="tracking-wide">Table 1</span>
-            </button>
         </div>
 
         <!-- Category Menu Navigation Tabs (generated from config) -->
@@ -193,24 +188,6 @@
         </div>
     </div>
 
-    <!-- Dine-In/Takeaway Table Selection Modal -->
-    <div id="table-selector-modal" class="fixed inset-0 bg-coffee-espresso/80 z-50 flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300 p-4">
-        <div id="table-selector-panel" class="bg-coffee-cream w-full max-w-sm rounded-3xl p-6 space-y-5 shadow-2xl transform scale-95 transition-all duration-300 border border-coffee-honey/20">
-            <div class="text-center space-y-1">
-                <h3 class="font-serif font-extrabold text-2xl text-coffee-espresso">Where are you sitting?</h3>
-                <p class="text-xs text-coffee-caramel/70">Select your dining setup for accurate kitchen delivery.</p>
-            </div>
-            <div class="grid grid-cols-2 gap-2 bg-coffee-latte p-1.5 rounded-2xl border border-coffee-caramel/10">
-                <button onclick="setServiceType('dine-in')" id="btn-dine-in" class="py-3 text-xs font-extrabold rounded-xl transition-all shadow-sm bg-coffee-espresso text-coffee-cream">Dine In (Table)</button>
-                <button onclick="setServiceType('takeaway')" id="btn-takeaway" class="py-3 text-xs font-extrabold rounded-xl transition-all text-coffee-caramel/60">Takeaway</button>
-            </div>
-            <div id="table-select-wrapper" class="space-y-2">
-                <label class="text-xs font-extrabold text-coffee-espresso/70 uppercase tracking-wider block">Choose Table Number</label>
-                <div id="table-number-grid" class="grid grid-cols-4 gap-2"></div>
-            </div>
-            <button onclick="saveTableConfig()" class="w-full py-3.5 bg-coffee-honey text-coffee-espresso font-extrabold text-sm rounded-xl shadow-md btn-press tracking-wider uppercase">Confirm Table Selection</button>
-        </div>
-    </div>
 
     <!-- Sticky Shopping Cart Footer -->
     <div id="sticky-cart-footer" class="fixed bottom-0 left-0 right-0 z-40 bg-coffee-cream border-t border-coffee-honey/30 px-4 py-3.5 transform translate-y-full transition-transform duration-300 shadow-2xl">
@@ -246,14 +223,6 @@
             </div>
             <div id="cart-items-list" class="flex-grow overflow-y-auto space-y-4 py-2 pr-1"></div>
             <div class="border-t border-coffee-caramel/10 pt-4 space-y-2.5">
-                <div class="flex justify-between text-xs text-coffee-caramel/80 font-semibold">
-                    <span>Dining Selection:</span>
-                    <span id="receipt-dining-type" class="font-extrabold text-coffee-caramel">Table 1</span>
-                </div>
-                <div class="flex justify-between text-xs text-coffee-caramel/60">
-                    <span>Convenience Surcharge:</span>
-                    <span>₹0.00 (Free)</span>
-                </div>
                 <div class="flex justify-between text-base font-extrabold text-coffee-espresso border-t border-dashed border-coffee-honey/20 pt-2.5">
                     <span>Grand Total:</span>
                     <span id="receipt-grand-total" class="font-serif text-2xl text-coffee-espresso">₹0</span>
@@ -350,8 +319,6 @@
         let appState = {
             activeCategory: 'all',
             searchQuery: '',
-            tableNo: 1,
-            isTakeaway: false,
             cart: [],
             selectedConfigItem: null,
             tempSelectedOptions: {},
@@ -620,64 +587,6 @@
             syncCart();
         };
 
-        const toggleTableSelectorModal = () => {
-            const modal = document.getElementById('table-selector-modal');
-            const panel = document.getElementById('table-selector-panel');
-            if (modal.classList.contains('pointer-events-none')) {
-                modal.classList.remove('opacity-0', 'pointer-events-none');
-                modal.classList.add('opacity-100', 'pointer-events-auto');
-                panel.classList.remove('scale-95'); panel.classList.add('scale-100');
-            } else {
-                panel.classList.remove('scale-100'); panel.classList.add('scale-95');
-                modal.classList.remove('opacity-100', 'pointer-events-auto');
-                modal.classList.add('opacity-0', 'pointer-events-none');
-            }
-        };
-
-        const setServiceType = (type) => {
-            const dineInBtn = document.getElementById('btn-dine-in');
-            const takeawayBtn = document.getElementById('btn-takeaway');
-            const tableSelector = document.getElementById('table-select-wrapper');
-            if (type === 'dine-in') {
-                appState.isTakeaway = false;
-                dineInBtn.className = "py-3 text-xs font-extrabold rounded-xl transition-all shadow-sm bg-coffee-espresso text-coffee-cream";
-                takeawayBtn.className = "py-3 text-xs font-extrabold rounded-xl transition-all text-coffee-caramel/60";
-                tableSelector.classList.remove('hidden');
-            } else {
-                appState.isTakeaway = true;
-                takeawayBtn.className = "py-3 text-xs font-extrabold rounded-xl transition-all shadow-sm bg-coffee-espresso text-coffee-cream";
-                dineInBtn.className = "py-3 text-xs font-extrabold rounded-xl transition-all text-coffee-caramel/60";
-                tableSelector.classList.add('hidden');
-            }
-        };
-
-        const buildTableButtons = () => {
-            const grid = document.getElementById('table-number-grid');
-            grid.innerHTML = '';
-            const count = CFG.tableCount || 4;
-            for (let n = 1; n <= count; n++) {
-                const btn = document.createElement('button');
-                btn.className = `table-btn py-2.5 text-sm font-black rounded-xl border ${n === 1 ? 'border-coffee-honey bg-coffee-honey/10 text-coffee-espresso' : 'border-coffee-caramel/20 text-coffee-caramel'} btn-press`;
-                btn.innerText = `T${n}`;
-                btn.onclick = () => selectTableNumber(n);
-                grid.appendChild(btn);
-            }
-        };
-
-        const selectTableNumber = (num) => {
-            appState.tableNo = num;
-            document.querySelectorAll('.table-btn').forEach((btn, idx) => {
-                if (idx === (num - 1)) btn.className = "table-btn py-2.5 text-sm font-black rounded-xl border border-coffee-honey bg-coffee-honey/10 text-coffee-espresso btn-press";
-                else btn.className = "table-btn py-2.5 text-sm font-black rounded-xl border border-coffee-caramel/20 text-coffee-caramel btn-press";
-            });
-        };
-
-        const saveTableConfig = () => {
-            const label = appState.isTakeaway ? 'Takeaway' : `Table ${appState.tableNo}`;
-            document.getElementById('current-table-text').innerText = label;
-            document.getElementById('receipt-dining-type').innerText = label;
-            toggleTableSelectorModal();
-        };
 
         const syncCart = () => {
             const badge = document.getElementById('cart-item-badge');
@@ -765,12 +674,10 @@
             }
 
             const customerName = (document.getElementById('customer-name').value || '').trim();
-            let deliveryFormat = appState.isTakeaway ? '🎒 Takeaway Bag' : `🪑 Dine In - Table ${appState.tableNo}`;
             let grandTotal = 0;
             let message = `*☕ NEW DESI DRINK CAFE ORDER* \n`;
             message += `=============================\n`;
             if (customerName) message += `*Name:* ${customerName}\n`;
-            message += `*Service:* ${deliveryFormat}\n`;
             message += `=============================\n`;
             appState.cart.forEach((item, idx) => {
                 const sub = item.finalPrice * item.quantity;
@@ -810,7 +717,7 @@
         const registerOrderInKDS = (rawMessage, total) => {
             appState.simulatedKitchenOrders.unshift({
                 id: Math.floor(1000 + Math.random() * 9000),
-                table: appState.isTakeaway ? 'Takeaway' : `Table ${appState.tableNo}`,
+                table: 'Order',
                 timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
                 text: rawMessage.replace(/\*/g, '').replace(/_/g, ''),
                 total: total
@@ -917,47 +824,15 @@
 
             applyCafeContent();
             buildCategoryTabs();
-            buildTableButtons();
             loadCart();
             renderMenu();
             syncCart();
 
             const urlParams = new URLSearchParams(window.location.search);
-            const urlTable = urlParams.get('table');
-            const urlType = urlParams.get('type');
             const isAdmin = urlParams.get('admin');
 
             const posCard = document.getElementById('pos-monitor-card');
             if (posCard) posCard.classList.toggle('hidden', isAdmin !== 'true');
-
-            const tablePill = document.getElementById('table-display-pill');
-            const lockPill = () => {
-                tablePill.removeAttribute('onclick');
-                tablePill.style.cursor = 'default';
-                tablePill.classList.remove('btn-press');
-                const pulseDot = tablePill.querySelector('.rounded-full');
-                if (pulseDot) {
-                    pulseDot.classList.remove('animate-pulse', 'bg-coffee-honey');
-                    pulseDot.classList.add('bg-coffee-caramel');
-                }
-            };
-
-            const maxTable = CFG.tableCount || 4;
-            const validTables = Array.from({ length: maxTable }, (_, i) => String(i + 1));
-
-            if (urlType === 'takeaway') {
-                setServiceType('takeaway');
-                saveTableConfig();
-                lockPill();
-            } else if (urlTable && validTables.includes(urlTable)) {
-                setServiceType('dine-in');
-                selectTableNumber(parseInt(urlTable));
-                saveTableConfig();
-                lockPill();
-            } else {
-                selectTableNumber(1);
-                saveTableConfig();
-            }
         };
     </script>
 </body>

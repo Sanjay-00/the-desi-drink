@@ -10,8 +10,6 @@ Live site: https://sanjay-00.github.io/the-desi-drink/
 
 - Browse the full menu with photos, prices, and item customization
 - Add items to a cart and place the order via WhatsApp
-- Table-specific QR codes: scanning Table 2's QR locks the order to Table 2
-- Takeaway mode for counter orders
 - Cart saves across refresh so an accidental reload doesn't wipe the order
 
 ---
@@ -34,16 +32,11 @@ Square photos (600x600 or similar) look best.
 
 ## Making the QR codes
 
-Go to https://www.qr-code-generator.com, paste the URL, download the PNG.
+Go to https://www.qr-code-generator.com, paste the URL below, download the PNG.
 
-| For | URL |
-|-----|-----|
-| General poster | `https://sanjay-00.github.io/the-desi-drink/` |
-| Table 1 | `https://sanjay-00.github.io/the-desi-drink/?table=1` |
-| Table 2 | `https://sanjay-00.github.io/the-desi-drink/?table=2` |
-| Table 3 | `https://sanjay-00.github.io/the-desi-drink/?table=3` |
-| Table 4 | `https://sanjay-00.github.io/the-desi-drink/?table=4` |
-| Takeaway counter | `https://sanjay-00.github.io/the-desi-drink/?type=takeaway` |
+```
+https://sanjay-00.github.io/the-desi-drink/
+```
 
 ---
 

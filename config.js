@@ -179,6 +179,4 @@ window.CAFE_CONFIG = {
     }
   ],
 
-  /* --- Dine-in tables (how many tables to show in the picker) -------------- */
-  tableCount: 4,
 };
