@@ -6,12 +6,13 @@
     <title>The Desi Drink | Menu</title>
     <meta name="description" content="The Desi Drink: aromatic, spiced, soulful chai, coffee & bites. Browse the full menu.">
     <meta name="theme-color" content="#2C1A11">
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ctext y='19' font-size='20'%3E%F0%9F%AB%96%3C/text%3E%3C/svg%3E">
+    <link rel="icon" href="assets/logo.jpg">
 
     <!-- Open Graph (nice preview when the link is shared on WhatsApp/Instagram) -->
     <meta property="og:title" content="The Desi Drink">
     <meta property="og:description" content="Aromatic • Spiced • Soulful. Tap to see our menu.">
     <meta property="og:type" content="website">
+    <meta property="og:image" content="assets/logo.jpg">
 
     <!-- Tailwind CSS (CDN, fine for launch; see README to bundle later) -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -76,6 +77,42 @@
         .desi-divider { color: rgba(122,67,29,0.35); letter-spacing: 0.5em; }
 
         .bestseller-crown { filter: drop-shadow(0 2px 3px rgba(0,0,0,0.25)); }
+
+        /* Loading skeleton (plain CSS so it renders even before Tailwind's CDN script finishes) */
+        .skeleton-card {
+            height: 112px;
+            border-radius: 24px;
+            background: linear-gradient(90deg, #EFE8DA 25%, #F6F1E7 37%, #EFE8DA 63%);
+            background-size: 400% 100%;
+            animation: skeletonShine 1.4s ease infinite;
+        }
+        @keyframes skeletonShine {
+            0% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Back-to-top button */
+        #back-to-top {
+            position: fixed;
+            right: 16px;
+            bottom: 20px;
+            width: 44px;
+            height: 44px;
+            border-radius: 999px;
+            background: #2C1A11;
+            color: #EAA937;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px -4px rgba(44,26,17,0.4);
+            border: 2px solid rgba(234,169,55,0.4);
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(10px);
+            transition: opacity 0.25s ease, transform 0.25s ease;
+            z-index: 40;
+        }
+        #back-to-top.visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
     </style>
 </head>
 <body class="text-coffee-espresso font-sans min-h-screen selection:bg-coffee-honey selection:text-coffee-espresso">
@@ -84,10 +121,8 @@
     <header class="sticky top-0 z-30 bg-coffee-cream/90 backdrop-blur-md border-b border-coffee-caramel/10 shadow-sm">
         <div class="max-w-md mx-auto px-4 py-3.5 flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-coffee-espresso to-coffee-dark flex items-center justify-center text-coffee-honey font-bold text-xl shadow-md border-2 border-coffee-honey">
-                    <svg class="w-6 h-6 fill-coffee-honey" viewBox="0 0 24 24">
-                        <path d="M2 21h18v-2H2v2M20 8h-2V5h2v3M4 19h12v-4H4v4m0-6h12v-4H4v4m0-6h12V3H4v4m16-1c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2h-4v6h4z"/>
-                    </svg>
+                <div class="w-12 h-12 rounded-full overflow-hidden shadow-md border-2 border-coffee-honey flex-shrink-0">
+                    <img src="assets/logo.jpg" alt="The Desi Drink logo" class="w-full h-full object-cover">
                 </div>
                 <div>
                     <h1 id="cafe-name" class="font-serif italic font-bold text-2xl tracking-wide text-coffee-espresso leading-none">THE DESI DRINK</h1>
@@ -121,8 +156,13 @@
             </svg>
         </div>
 
-        <!-- Menu Container -->
-        <div id="menu-items-container" class="space-y-4"></div>
+        <!-- Menu Container (skeleton placeholders shown until JS renders real items) -->
+        <div id="menu-items-container" class="space-y-4">
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+        </div>
 
         <!-- About / Our Story -->
         <section class="bg-coffee-cream rounded-3xl p-6 shadow-sm border border-coffee-caramel/5 coffee-shadow space-y-2">
@@ -172,6 +212,13 @@
 
     </main>
 
+    <!-- Back to top -->
+    <button id="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" aria-label="Back to top">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7"/>
+        </svg>
+    </button>
+
     <!-- ===== Configuration (edit config.js for all content) ===== -->
     <script src="config.js"></script>
 
@@ -219,10 +266,10 @@
             else if (item.category === 'Desserts')   badgeClass = "bg-pink-600/10 text-pink-700 border border-pink-400/20";
 
             card.innerHTML = `
-                <div class="w-24 h-24 sm:w-28 sm:h-28 flex-shrink-0 relative rounded-2xl overflow-hidden border border-coffee-caramel/10 bg-coffee-latte shadow-inner aspect-square">
+                <div class="w-28 h-28 sm:w-32 sm:h-32 flex-shrink-0 relative rounded-2xl overflow-hidden border border-coffee-caramel/10 bg-coffee-latte shadow-inner aspect-square">
                     ${item.image
-                        ? `<img src="${item.image}" alt="${item.name}" loading="lazy" width="112" height="112"
-                             class="w-full h-full object-cover object-center transition-all duration-500 opacity-0"
+                        ? `<img src="${item.image}" alt="${item.name}" loading="lazy" width="128" height="128"
+                             class="w-full h-full object-cover object-[center_25%] transition-all duration-500 opacity-0"
                              onload="this.classList.remove('opacity-0')"
                              onerror="this.parentElement.innerHTML='<div class=&quot;w-full h-full flex items-center justify-center text-3xl&quot;>☕</div>'">`
                         : `<div class="w-full h-full flex items-center justify-center text-3xl">☕</div>`}
@@ -251,14 +298,20 @@
             return card;
         };
 
+        const itemMatchesQuery = (item, query) => {
+            if (!query) return true;
+            const haystackWords = `${item.name} ${item.desc || ''}`.toLowerCase().split(/[^a-z0-9]+/);
+            const queryWords = query.toLowerCase().split(/\s+/).filter(Boolean);
+            return queryWords.every(qw => haystackWords.some(hw => hw.startsWith(qw)));
+        };
+
         const renderMenu = () => {
             const container = document.getElementById('menu-items-container');
             container.innerHTML = '';
 
             const filtered = CAFEMENU.filter(item => {
                 const matchesCategory = appState.activeCategory === 'all' || item.category === appState.activeCategory;
-                const q = appState.searchQuery.toLowerCase();
-                const matchesSearch = item.name.toLowerCase().includes(q) || (item.desc || '').toLowerCase().includes(q);
+                const matchesSearch = itemMatchesQuery(item, appState.searchQuery);
                 return matchesCategory && matchesSearch;
             });
 
@@ -286,7 +339,7 @@
         };
 
         const filterMenu = () => {
-            appState.searchQuery = document.getElementById('menu-search').value;
+            appState.searchQuery = document.getElementById('menu-search').value.trim();
             renderMenu();
         };
 
@@ -310,7 +363,7 @@
                 const slide = document.createElement('div');
                 slide.className = "relative w-full flex-shrink-0 overflow-hidden bg-gradient-to-br from-coffee-espresso to-coffee-dark text-coffee-cream p-6 min-h-[230px] flex flex-col justify-end";
                 slide.innerHTML = `
-                    <img src="${h.image || ''}" alt="${h.title || ''}" class="absolute inset-0 w-full h-full object-cover object-center opacity-45">
+                    <img src="${h.image || ''}" alt="${h.title || ''}" class="absolute inset-0 w-full h-full object-cover object-[center_25%] opacity-45">
                     <div class="absolute inset-0 bg-gradient-to-t from-coffee-dark via-coffee-dark/50 to-transparent"></div>
                     <div class="relative z-10 space-y-3">
                         <span class="inline-block px-3 py-1 bg-coffee-honey text-coffee-espresso text-[10px] uppercase font-extrabold rounded-lg tracking-wider">${h.badge || ''}</span>
@@ -392,7 +445,14 @@
             }
         };
 
-        window.onload = () => {
+        const initBackToTop = () => {
+            const btn = document.getElementById('back-to-top');
+            window.addEventListener('scroll', () => {
+                btn.classList.toggle('visible', window.scrollY > 600);
+            }, { passive: true });
+        };
+
+        const init = () => {
             if (!window.CAFE_CONFIG) {
                 document.getElementById('menu-items-container').innerHTML =
                     '<p class="text-center text-sm text-coffee-accent py-8">Could not load config.js, check the file is present.</p>';
@@ -402,7 +462,10 @@
             buildHeroSlideshow();
             buildCategoryTabs();
             renderMenu();
+            initBackToTop();
         };
+
+        init();
     </script>
 </body>
 </html>

@@ -19,7 +19,7 @@ window.CAFE_CONFIG = {
 
     phone: "+918825209423",            // REPLACE with cafe phone
 
-    address: "123 Your Street, Your Area, Your City - 000000",  // REPLACE
+    address: "Tamnar - Chhattisgarh",  // REPLACE
     mapsLink: "https://www.google.com/maps/search/?api=1&query=The+Desi+Drink",  // REPLACE
 
     hours: [
@@ -33,10 +33,11 @@ window.CAFE_CONFIG = {
   /* --- Short "our story" blurb --------------------------------------------- */
   about: {
     heading: "Our Story",
-    text: "The Desi Drink began with one simple idea, that a cup of chai is more " +
-          "than a drink, it's a warm hug. We brew every cup with fresh spices, " +
-          "real milk, and a whole lot of soul. Pull up a chair, take a sip, and " +
-          "let the world slow down for a while.",
+    text: "The Desi Drink is a modern cafe built around an old-fashioned idea, " +
+          "good ingredients make good food. We source fresh spices, real milk, " +
+          "and honest produce, and cook everything the way we'd want it ourselves. " +
+          "Whether it's a quick chai between errands or a full plate with friends, " +
+          "pull up a chair and taste the difference.",
   },
 
   /* --- Hero banner slideshow ------------------------------------------------
