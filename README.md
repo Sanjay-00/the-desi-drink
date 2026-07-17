@@ -1,6 +1,6 @@
 # The Desi Drink - Cafe Website
 
-A free menu and ordering website for my brother's cafe. Customers scan a QR code on the table or poster, browse the menu, and send their order to the cafe's WhatsApp in one tap.
+A free digital menu website for my brother's cafe. Customers scan a QR code on the table or poster and browse the full menu on their phone — no app, no ordering, just a nice-looking menu.
 
 Live site: https://sanjay-00.github.io/the-desi-drink/
 
@@ -8,15 +8,20 @@ Live site: https://sanjay-00.github.io/the-desi-drink/
 
 ## What it does
 
-- Browse the full menu with photos, prices, and item customization
-- Add items to a cart and place the order via WhatsApp
-- Cart saves across refresh so an accidental reload doesn't wipe the order
+- Browse the full menu with photos, prices, and item options (sizes/portions)
+- Auto-rotating combo slideshow up top
+- "Fan Favourites" strip highlighting bestsellers (currently the ice creams)
+- Search and filter by category
+- Tap-to-call and Google Maps / Instagram links
 
 ---
 
 ## How to update the menu or cafe info
 
 Open `config.js`. That's the only file you need to touch for any content changes: menu items, prices, photos, address, hours, Instagram link, opening times.
+
+- To change the combo slideshow, edit the `heroSlides` array — copy a block to add another slide.
+- To mark an item as a bestseller (shows up in the "Fan Favourites" strip), add `bestseller: true` to it.
 
 After editing, push the changes and the site updates automatically in about a minute.
 

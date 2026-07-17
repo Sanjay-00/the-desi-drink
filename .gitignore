@@ -1,6 +1,3 @@
-# Local-only WhatsApp number override (keeps the real number out of the repo)
-config.local.js
-
 # Python virtual environment
 venv/
 
@@ -14,3 +11,5 @@ Thumbs.db
 
 
 *.stackdump
+
+Posters
