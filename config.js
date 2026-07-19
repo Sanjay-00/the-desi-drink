@@ -46,6 +46,13 @@ window.CAFE_CONFIG = {
    * ------------------------------------------------------------------------- */
   heroSlides: [
     {
+      badge: "New Launch",
+      title: "Jambo Burger",
+      desc: "The ultimate 3-layer burger! Huge, loaded with flavour, and made for true food lovers.",
+      price: 150,
+      image: "assets/menu/jambo-burger.jpg",
+    },
+    {
       badge: "Monsoon Special",
       title: "Bun Maska & Masala Chai",
       desc: "The classic monsoon duo! Soft buttery bun with soulful aromatic spiced chai.",
@@ -210,6 +217,15 @@ window.CAFE_CONFIG = {
       desc: 'A BURST OF FLAVOR! Fresh mushrooms loaded with garlic and melty cheese.',
       badge: 'Pure Delight',
       image: 'assets/menu/cheese-garlic-mushroom.jpg',
+    },
+    {
+      id: '46',
+      name: 'Jambo Burger',
+      category: 'Bites & Snacks',
+      price: 150,
+      desc: 'BIGGER. BETTER. ULTIMATE! Huge 3-layer burger loaded with flavour and made for true food lovers.',
+      badge: 'New Launch',
+      image: 'assets/menu/jambo-burger.jpg',
     },
 
     // ======================================================================
