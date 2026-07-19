@@ -50,6 +50,7 @@ window.CAFE_CONFIG = {
       title: "Jambo Burger",
       desc: "The ultimate 3-layer burger! Huge, loaded with flavour, and made for true food lovers.",
       price: 150,
+      ctaLabel: "Newly Launched",
       image: "assets/menu/jambo-burger.jpg",
     },
     {
